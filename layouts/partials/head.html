@@ -19,7 +19,13 @@
 <meta name="MobileOptimized" content="320" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link rel="stylesheet" href="{{ "css/screen.css" | absURL }}" />
+<!-- Make UI look consistent on all browsers -->
+<link rel="stylesheet" href="{{ "css/normalize.css" | absURL }}" type="text/css" />
+<!-- Main style -->
+{{ $main_scss := resources.Get "scss/_index.scss" }}
+{{ $style := $main_scss | resources.ToCSS (dict "enableSourceMap" (not hugo.IsProduction)) | resources.Fingerprint }}
+<link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $style.Data.Integrity }}">
+<!-- Fonts related styles -->
 <link rel="stylesheet" href="{{ "css/fonts.css" | absURL }}" type="text/css" />
 <link
   rel="stylesheet"
